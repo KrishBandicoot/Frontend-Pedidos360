@@ -1,7 +1,7 @@
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost:8081/pedidos',
-  apiBaseUrl: 'http://localhost:8081',
+  apiUrl: 'https://eiru63rf9l.execute-api.us-east-1.amazonaws.com/dev/api/pedidos',
+  apiBaseUrl: 'https://eiru63rf9l.execute-api.us-east-1.amazonaws.com/dev',
   azure: {
     // Client ID de la SPA registrada en Microsoft Entra ID
     clientId: '77fa1a53-496f-49d1-97d7-bac9b72d9081',
@@ -11,8 +11,7 @@ export const environment = {
     redirectUri: 'http://localhost:4200',
     // Scopes delegados expuestos por el Backend Web API
     scopes: [
-      'api://pedidos360-backend/Pedidos.Read',
-      'api://pedidos360-backend/Pedidos.Write'
+      '77fa1a53-496f-49d1-97d7-bac9b72d9081/.default'
     ]
   }
 };

@@ -62,7 +62,8 @@ export function MSALInterceptorConfigFactory(): MsalInterceptorConfiguration {
   const protectedResourceMap = new Map<string, Array<string>>();
   const defaultScope = [`${environment.azure.clientId}/.default`];
   
-  protectedResourceMap.set('http://localhost:8081/*', defaultScope);
+// Reemplaza localhost por la IP de tu EC2
+  protectedResourceMap.set('https://eiru63rf9l.execute-api.us-east-1.amazonaws.com/*', ['77fa1a53-496f-49d1-97d7-bac9b72d9081/.default']);
   protectedResourceMap.set(environment.apiBaseUrl, defaultScope);
   protectedResourceMap.set(environment.apiUrl, defaultScope);
 
