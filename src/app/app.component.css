@@ -1,0 +1,5 @@
+.main-content {
+  min-height: calc(100vh - 72px);
+  background-color: #f1f5f9;
+  padding-bottom: 40px;
+}

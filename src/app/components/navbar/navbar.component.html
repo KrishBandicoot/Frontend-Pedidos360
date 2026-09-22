@@ -1,0 +1,44 @@
+<header class="navbar">
+  <div class="nav-brand">
+    <div class="logo-icon">📦</div>
+    <div class="brand-text">
+      <span class="brand-title">Pedidos360</span>
+      <span class="brand-subtitle">Cloud Native Architecture (Zero Trust)</span>
+    </div>
+  </div>
+
+  <div class="nav-actions">
+    <!-- Estado de Identidad Entra ID -->
+    @if (authService.isAuthenticated()) {
+      <div class="user-badge">
+        <div class="user-avatar">{{ authService.userName().charAt(0).toUpperCase() }}</div>
+        <div class="user-info">
+          <span class="user-name">{{ authService.userName() }}</span>
+          <span class="user-email">{{ authService.userEmail() }}</span>
+        </div>
+        
+        <!-- App Roles desde el claim 'roles' de Azure -->
+        <div class="roles-container">
+          @for (role of authService.roles(); track role) {
+            <span class="role-pill" [class.admin]="role === 'Admin' || role === 'ADMIN'">
+              {{ role }}
+            </span>
+          } @empty {
+            <span class="role-pill standard">Sin Rol RBAC</span>
+          }
+        </div>
+
+        <button class="btn-logout" (click)="logout()" title="Cerrar sesión en Entra ID">
+          Desconectar
+        </button>
+      </div>
+    } @else {
+      <div class="guest-container">
+        <span class="status-indicator offline">Modo No Autenticado</span>
+        <button class="btn-login" (click)="login()">
+          <span class="ms-icon">🪟</span> Iniciar Sesión (Azure Entra ID)
+        </button>
+      </div>
+    }
+  </div>
+</header>

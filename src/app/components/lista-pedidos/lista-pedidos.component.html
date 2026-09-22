@@ -1,0 +1,152 @@
+<div class="dashboard-container">
+  
+  <!-- Banner Informativo de Arquitectura Zero Trust -->
+  <div class="security-banner">
+    <div class="banner-title">
+      <span class="shield-icon">🛡️</span>
+      <strong>Arquitectura Zero Trust & Control de Accesos (RBAC)</strong>
+    </div>
+    <div class="banner-info">
+      <span>Backend: <strong>Spring Boot 3 (Port 8081)</strong></span>
+      <span>•</span>
+      <span>Autenticación: <strong>Microsoft Entra ID (PKCE Flow)</strong></span>
+      <span>•</span>
+      <span>Tu Rol Activo: 
+        <strong [class.text-danger]="authService.isAdmin()" [class.text-primary]="!authService.isAdmin()">
+          {{ authService.roles().length > 0 ? authService.roles().join(', ') : 'Invitado (Sin Rol)' }}
+        </strong>
+      </span>
+    </div>
+  </div>
+
+  <!-- Tarjetas de Métricas -->
+  <div class="metrics-grid">
+    <div class="metric-card total">
+      <span class="metric-label">Total Pedidos</span>
+      <span class="metric-value">{{ totalPedidos() }}</span>
+    </div>
+    <div class="metric-card pending">
+      <span class="metric-label">Pendientes</span>
+      <span class="metric-value">{{ pedidosPendientes() }}</span>
+    </div>
+    <div class="metric-card processing">
+      <span class="metric-label">En Preparación</span>
+      <span class="metric-value">{{ pedidosPreparacion() }}</span>
+    </div>
+    <div class="metric-card completed">
+      <span class="metric-label">Completados</span>
+      <span class="metric-value">{{ pedidosCompletados() }}</span>
+    </div>
+  </div>
+
+  <!-- Formulario de Creación de Pedido -->
+  <div class="card form-card">
+    <div class="card-header">
+      <h3>➕ Registrar Nuevo Pedido</h3>
+      <span class="badge-role-required">Requiere Rol ADMIN o Scope Pedidos.Write</span>
+    </div>
+    
+    <form (ngSubmit)="crearPedido()" class="order-form">
+      <div class="form-group">
+        <label for="cliente">Nombre del Cliente / Razón Social:</label>
+        <input 
+          id="cliente"
+          type="text" 
+          [(ngModel)]="nuevoPedido.cliente" 
+          name="cliente"
+          placeholder="Ej: Minera San Pedro, Falabella Retail..."
+          class="form-control"
+          required
+          minlength="3"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="estado">Estado Inicial:</label>
+        <select 
+          id="estado"
+          [(ngModel)]="nuevoPedido.estado" 
+          name="estado"
+          class="form-control"
+        >
+          <option value="Pendiente">🔴 Pendiente</option>
+          <option value="En Preparacion">🟡 En Preparación</option>
+          <option value="Completado">🟢 Completado</option>
+        </select>
+      </div>
+
+      <button 
+        type="submit" 
+        class="btn-submit"
+        [disabled]="nuevoPedido.cliente.trim().length < 3"
+      >
+        Guardar Pedido
+      </button>
+    </form>
+  </div>
+
+  <!-- Tabla de Pedidos Persistidos -->
+  <div class="card table-card">
+    <div class="card-header space-between">
+      <h3>📋 Registro de Pedidos en Sistema</h3>
+      <button class="btn-refresh" (click)="cargarPedidos()" [disabled]="loading()">
+        🔄 {{ loading() ? 'Cargando...' : 'Actualizar' }}
+      </button>
+    </div>
+
+    <div class="table-responsive">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Cliente / Empresa</th>
+            <th>Estado</th>
+            <th>Fecha de Creación</th>
+            <th class="text-right">Acciones RBAC</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (pedido of pedidos(); track pedido.id) {
+            <tr>
+              <td class="font-mono">#{{ pedido.id }}</td>
+              <td class="font-bold">{{ pedido.cliente }}</td>
+              <td>
+                <span class="status-badge" [ngClass]="pedido.estado.toLowerCase().replace(' ', '-')">
+                  {{ pedido.estado }}
+                </span>
+              </td>
+              <td class="text-muted">
+                {{ pedido.fechaCreacion ? (pedido.fechaCreacion | date:'dd/MM/yyyy HH:mm') : 'Reciente' }}
+              </td>
+              <td class="text-right">
+                @if (authService.isAdmin()) {
+                  <button 
+                    class="btn-delete"
+                    (click)="eliminarPedido(pedido.id)"
+                    title="Eliminar pedido (Solo ADMIN)"
+                  >
+                    🗑️ Eliminar
+                  </button>
+                } @else {
+                  <span class="text-muted" style="font-size: 0.8rem; font-style: italic;">🔒 Solo Admin</span>
+                }
+              </td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="5" class="empty-state">
+                @if (loading()) {
+                  <p>Consultando microservicio de pedidos...</p>
+                } @else {
+                  <p>No hay pedidos registrados en la base de datos.</p>
+                  <span class="sub-text">Crea tu primer pedido utilizando el formulario superior.</span>
+                }
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
