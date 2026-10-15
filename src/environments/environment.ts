@@ -1,6 +1,6 @@
 export const environment = {
   production: false,
-  apiUrl: 'https://eiru63rf9l.execute-api.us-east-1.amazonaws.com/dev/api/pedidos',
+  apiUrl: 'http://localhost:8081/pedidos',
   apiBaseUrl: 'https://eiru63rf9l.execute-api.us-east-1.amazonaws.com/dev',
   azure: {
     // Client ID de la SPA registrada en Microsoft Entra ID
