@@ -6,6 +6,7 @@ Esta guía explica cómo levantar el proyecto conectando el frontend local con l
 
 1. Accede a la cuenta de AWS.
 2. Enciende el laboratorio.
+Si no se tiene acceso a la cuenta, pidele a la persona que lo tiene que lo encienda.
 
 Al hacerlo, la instancia EC2 y el API Gateway se activarán automáticamente.
 
