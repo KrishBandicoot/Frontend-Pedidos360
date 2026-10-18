@@ -1,7 +1,8 @@
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost:8081/pedidos',
-  apiBaseUrl: 'https://eiru63rf9l.execute-api.us-east-1.amazonaws.com/dev',
+  // Reemplazamos localhost por tu API Gateway (etapa $default)
+  apiUrl: 'https://eiru63rf9l.execute-api.us-east-1.amazonaws.com/pedidos',
+  apiBaseUrl: 'https://eiru63rf9l.execute-api.us-east-1.amazonaws.com',
   azure: {
     // Client ID de la SPA registrada en Microsoft Entra ID
     clientId: '77fa1a53-496f-49d1-97d7-bac9b72d9081',
