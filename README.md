@@ -33,7 +33,7 @@ Abre PowerShell y utiliza tu llave de seguridad `.pem` para conectarte al servid
 ```powershell
 ssh -i "C:\Users\KrishBandicoot\Downloads\Cloud 2\Codigo Evaluacion\llave-pedidos.pem" ubuntu@18.235.232.179
 ```
-
+(Nota de seguridad: El archivo llave-pedidos.pem no se incluye en este repositorio. Solicítalo por interno y guárdalo en tu carpeta de Descargas personal antes de ejecutar el comando SSH).
 **Verificación:** La consola cambiará al entorno Linux y mostrará un prompt similar a `ubuntu@ip-172-31-...`.
 
 > Si la llave `.pem` está guardada en otra carpeta, reemplaza la ruta del comando por la ruta correcta.
